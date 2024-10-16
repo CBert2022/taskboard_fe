@@ -1,14 +1,17 @@
+.task_form_container {
+  background-color: rgb(246, 237, 238);
+  height: fit-content;
+}
+
 .app_header {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-bottom: 1px solid #dcdcdc;
   padding: 20px 0;
 }
 
 .app_header > form {
   width: 40%;
-  padding-bottom: 20px;
 }
 
 .task_input {

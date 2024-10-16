@@ -3,7 +3,7 @@ import Tag from "./Tag";
 import { useState } from "react";
 
 const TaskForm = ({ setTasks }) => {
-  const [taskData, setTastData] = useState({
+  const [taskData, setTaskData] = useState({
     task: "",
     status: "todo",
     tags: [],
@@ -14,50 +14,70 @@ const TaskForm = ({ setTasks }) => {
     return taskData.tags.some((item) => item === tag);
   };
 
-  // tag wird in Task.jsx als tagName übergeben
+  // Tag wird in Task.jsx als tagName übergeben
   const selectTag = (tag) => {
-    //console.log(tag);
     if (taskData.tags.some((item) => item === tag)) {
-      //some() return boolean, checkt jedes Item, ob es einen den hat
       const filterTags = taskData.tags.filter((item) => item !== tag);
-      setTastData((prev) => {
-        return { ...prev, tags: filterTags }; // Data Objekt kopieren und tag eintragen
-      });
+      setTaskData((prev) => ({
+        ...prev,
+        tags: filterTags,
+      }));
     } else {
-      setTastData((prev) => {
-        return { ...prev, tags: [...prev.tags, tag] }; // Data Objekt kopieren und tag-Array erweitern
-      });
+      setTaskData((prev) => ({
+        ...prev,
+        tags: [...prev.tags, tag],
+      }));
     }
   };
 
-  //console.log(taskData.tags);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    // prev = current TaskData Value
-    setTastData((prev) => {
-      return { ...prev, [name]: value };
-    });
+    setTaskData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(taskData);
-    setTasks((prev) => {
-      return [...prev, taskData];
-    });
 
-    // Reset Form
-    setTastData({
-      task: "",
-      status: "todo",
-      tags: [],
-    });
+    const data = {
+      task: taskData.task,
+      status: taskData.status,
+      tags: taskData.tags.join(","), // Tags als kommagetrennte Zeichenfolge
+    };
+
+    try {
+      const response = await fetch(
+        "http://localhost/taskboard/taskboard_be/test.php",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
+
+      const result = await response.json();
+      console.log(result);
+
+      // Update the local state with the newly created task
+      setTasks((prev) => [...prev, { ...taskData, tags: taskData.tags }]); // Optional: Daten zu Tasks hinzufügen
+
+      // Reset Form
+      setTaskData({
+        task: "",
+        status: "todo",
+        tags: [],
+      });
+    } catch (error) {
+      console.error("Fehler beim Senden der Daten:", error);
+    }
   };
 
   return (
-    <div>
+    <div className="task_form_container">
       <header className="app_header">
         <form onSubmit={handleSubmit}>
           <input

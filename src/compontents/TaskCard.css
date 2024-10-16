@@ -6,6 +6,8 @@
   padding: 15px;
   margin-bottom: 15px 0;
   cursor: grab;
+  display: flex;
+  flex-direction: column;
 }
 
 .task_card:active {

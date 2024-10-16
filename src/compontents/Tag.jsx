@@ -13,7 +13,7 @@ const Tag = ({ tagName, selectTag, selected }) => {
   };
 
   return (
-    <div>
+    <div className="task_card_tags_buttons">
       <button
         type="button"
         className="tag"

@@ -6,7 +6,7 @@
 .app_main {
   display: flex;
   justify-content: space-evenly;
-  padding: 50px 8%;
+  padding: 40px 8%;
 }
 
 .task_column {

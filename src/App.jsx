@@ -5,6 +5,7 @@ import TaskForm from "./compontents/TaskForm";
 import todoIcon from "./assets/direct-hit.png";
 import doingIcon from "./assets/glowing-star.png";
 import doneIcon from "./assets/check-mark-button.png";
+// import Test from "./compontents/Test";
 
 const oldTasks = localStorage.getItem("tasks");
 
@@ -47,6 +48,7 @@ const App = () => {
 
   return (
     <div className="app">
+      {/* <Test /> */}
       <TaskForm setTasks={setTasks} />
       <main className="app_main">
         <TaskColumn
